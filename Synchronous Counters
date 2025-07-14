@@ -1,0 +1,68 @@
+DECADE COUNTER
+module decade( 
+input clk, 
+input clr, 
+output [3:0] Q 
+); 
+reg [3:0] Q; 
+always @(posedge clk or clr) 
+begin 
+if(!clr) 
+Q=4'b0000; 
+else if(Q==4'b1001) 
+Q=4'b000; 
+else 
+Q=Q+1; 
+end 
+endmodule 
+module decade_tb( 
+); 
+reg clk,clr; 
+wire [3:0] Q; 
+decade dc1(clk,clr,Q); 
+initial 
+begin 
+clr=1'b0; 
+#10 clr=1'b1; 
+clk=0; 
+#100 $finish; 
+end 
+always #5 clk=~clk; 
+endmodule 
+
+UPDOWN COUNTER
+module up_down( 
+input mode, 
+input clk, 
+input clr, 
+output [2:0] Q 
+); 
+reg [2:0] Q; 
+always @(posedge clk or clr) 
+begin 
+if(!clr ) 
+Q=3'b000; 
+else if(mode==0) 
+Q=Q+1; 
+else if(mode==1) 
+Q=Q-1; 
+end 
+endmodule 
+module upcounter_tb( 
+); 
+reg clk,clr,mode; 
+wire [2:0] Q; 
+up_down c1(mode,clk,clr,Q); 
+initial 
+begin 
+clr=1'b0; 
+mode=1'b0; 
+#10 clr=1'b1; 
+clk=0; 
+#70 
+mode=1'b1; 
+#70 
+$finish; 
+end 
+always #5 clk=~clk; 
+endmodule
