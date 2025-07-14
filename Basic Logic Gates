@@ -1,0 +1,68 @@
+GATE LEVEL MODELLING
+module gate( 
+    input a, 
+    input b, 
+    output ANDgate, 
+    output ORgate, 
+    output NANDgate, 
+    output NORgate, 
+    output XORgate 
+    ); 
+    and a1(ANDgate,a,b); 
+    or o(ORgate,a,b); 
+    nand na1(NANDgate,a,b); 
+    nor n1(NORgate,a,b); 
+    xor x1(XORgate,a,b); 
+endmodule 
+
+DATAFLOW MODELLING
+module gate1( 
+    input a, 
+    input b, 
+    output ANDgate, 
+    output ORgate, 
+    output NANDgate, 
+    output NORgate, 
+    output XORgate 
+    ); 
+    assign ANDgate=a&b; 
+    assign ORgate=a|b; 
+    assign NANDgate=~(a&b); 
+    assign NORgate=~(a|b); 
+    assign XORgate=a^b; 
+endmodule 
+
+BEHAVIOURAL MODELLING
+module gate2( 
+    input a, 
+    input b, 
+    output reg ANDgate, 
+    output reg ORgate, 
+    output reg NANDgate, 
+    output reg NORgate, 
+    output reg XORgate 
+    ); 
+    always @(*) begin 
+        ANDgate = a & b; ORgate = a | b; 
+        NANDgate = ~(a & b); 
+        NORgate = ~(a | b); 
+        XORgate = a ^ b; 
+    end 
+endmodule 
+
+TEST BENCH
+module gates_tb( 
+); 
+reg a,b; 
+wire ANDgate,ORgate,NANDgate,NORgate,XORgate; 
+gates g1(a,b,ANDgate,ORgate,NANDgate,NORgate,XORgate); 
+initial 
+begin 
+a=1'b0; 
+b=1'b0; 
+#10 a=1'b0;b=1'b1; 
+#10 a=1'b1;b=1'b0; 
+#10 a=1'b1;b=1'b1; 
+#10 $finish; 
+end 
+endmodule 
