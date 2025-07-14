@@ -1,0 +1,75 @@
+Jhonson Counter
+
+module jhonsoncounter( 
+    input clk, 
+    input clr, 
+    output  [3:0] Q 
+    ); 
+    reg [3:0] Q; 
+    always @(posedge clk or clr) 
+    begin 
+     if(!clr) 
+      Q=4'b0000; 
+      else 
+      begin 
+      Q[3]<=~Q[0]; 
+      Q[2]<=Q[3]; 
+      Q[1]<=Q[2]; 
+      Q[0]<=Q[1]; 
+      end 
+     end 
+endmodule 
+ 
+module jhonson_tb( 
+    ); 
+    reg clk,clr; 
+    wire [3:0] Q; 
+    jhonsoncounter j1(clk,clr,Q); 
+    initial 
+    begin 
+     clr=1'b0; 
+    #10 clr=1'b1; 
+    clk=0; 
+    #80 $finish; 
+    end 
+    always #5 clk=~clk; 
+endmodule 
+
+
+Ring Counter
+
+module ringcounter( 
+    input clr, 
+    input clk, 
+    output  [3:0] Q 
+    ); 
+    reg [3:0] Q; 
+    always @(posedge clk or clr) 
+    begin 
+    if(!clr) 
+      Q=4'b1000; 
+      else 
+      begin 
+      Q[3]<=Q[0]; 
+      Q[2]<=Q[3]; 
+      Q[1]<=Q[2]; 
+      Q[0]<=Q[1]; 
+      end 
+    end 
+endmodule 
+ 
+module ring_tb( 
+    ); 
+    reg clk,clr; 
+    wire [3:0] Q; 
+    ringcounter r1(clr,clk,Q); 
+    initial 
+    begin 
+     clr=1'b0; 
+    #10 clr=1'b1; 
+    clk=0; 
+    #50 $finish; 
+    end 
+    always #5 clk=~clk; 
+endmodule
+
