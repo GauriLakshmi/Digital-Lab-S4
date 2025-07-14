@@ -1,0 +1,154 @@
+SR Flipflop
+module srflipflop( 
+input S, 
+input R, 
+input clr, 
+input clk, 
+output reg Q 
+); 
+always @(posedge clk or clr) 
+begin 
+if(!clr) 
+Q=1'b0; 
+else 
+begin 
+case({S,R}) 
+2'b00:Q=Q; 
+2'b01:Q=0; 
+2'b10:Q=1; 
+2'b11:Q=1'bX; 
+endcase 
+end 
+end 
+endmodule 
+module srflipflop_tb( 
+); 
+reg S,R,clk,clr; 
+wire Q; 
+srflipflop s1(S,R,clr,clk,Q); 
+initial 
+begin 
+clr=1'b0; 
+#10 clr=1'b1; 
+clk=0; 
+#10 S=1'b0;R=1'b0; 
+#10 S=1'b0;R=1'b1; 
+#10 S=1'b1;R=1'b0; 
+#10 S=1'b1;R=1'b1; 
+#10 $finish; 
+end 
+always #5 clk=~clk; 
+endmodule 
+
+T FLIPFLOP 
+module tf( 
+input t, 
+input clr, 
+input clk, 
+output reg q 
+); 
+always @(posedge clk or clr) 
+begin 
+if(!clr) 
+q=0; 
+else 
+case(tq) 
+1'b0:q=q; 
+1'b1:q=~q; 
+endcase 
+end 
+endmodule 
+module t_tb( 
+); 
+reg t,clk,clr; 
+wire q; 
+t t1(t,clr,clk,q); 
+initial 
+begin 
+clr=1'b0; 
+#5 clr=1'b1; 
+clk=1'b0; 
+t=1'b0; 
+#10 t=1'b1; 
+#10 t=1'b0; 
+#10 t=1'b1; 
+#10 $finish; 
+end 
+always #5 clk=~clk; 
+endmodule 
+
+D FLIPFLOP 
+module dff( 
+input clk, 
+input clr, 
+input D, 
+output reg Q 
+); 
+always @(posedge clk or clr) 
+begin 
+if(!clr) 
+Q=1'b0; 
+else 
+begin 
+case({D}) 
+1'b0:Q=0; 
+1'b1:Q=1; 
+endcase 
+end 
+end 
+endmodule 
+module dff_tb( 
+); 
+reg clk,clr,D; 
+wire Q; 
+dff d(clk,clr,D,Q); 
+initial 
+begin 
+clr=1'b0; 
+#10 clr=1'b1; 
+clk=1'b0; 
+#10 D=1'b0; 
+#10 D=1'b1; 
+#10 $finish; 
+end 
+always #5 clk=~clk; 
+endmodule 
+
+JK FLIPFLOP 
+module jk( 
+input j, 
+input k, 
+input clk, 
+input clr, 
+output reg q 
+); 
+always @(posedge clk or clr) 
+begin 
+if(!clr) 
+q=1'b0; 
+else 
+case({j,k}) 
+2'b00:q=q; 
+2'b01:q=0; 
+2'b10:q=1; 
+2'b11:q=~q; 
+endcase 
+end 
+endmodule 
+module jk_tb(); 
+reg j,k,clk,clr; 
+wire q; 
+jk j1(j,k,clk,clr,q); 
+initial 
+begin 
+clr=1'b0; 
+#5 clr=1'b1; 
+clk=1'b0; 
+j=1'b0;k=1'b0; 
+#10 j=1'b0;k=1'b1; 
+#10 j=1'b1;k=1'b0; 
+#10 j=1'b1;k=1'b1; 
+#10 $finish; 
+end 
+always #5 clk=~clk; 
+endmodule
