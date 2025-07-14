@@ -1,0 +1,60 @@
+module mux4to1( 
+input [3:0] d, 
+input [1:0] s, 
+output reg y 
+); 
+always @ (s or d) 
+begin 
+case(s) 
+2'b00:y=d[3]; 
+2'b01:y=d[2]; 
+2'b10:y=d[1]; 
+2'b11:y=d[0]; 
+endcase 
+end 
+endmodule 
+module mux_tb( 
+); 
+reg [3:0] d; 
+reg [1:0] s; 
+wire y; 
+mux4to1 m1(d,s,y); 
+initial 
+begin 
+s=2'b00;d=4'b0000; 
+#10 s=2'b01;d=4'b0001; 
+#10 s=2'b10;d=4'b0010; 
+#10 s=2'b11;d=4'b0101; 
+#10 $finish; 
+end 
+endmodule
+
+module demux( 
+input i, 
+input [1:0]s, 
+output reg [3:0]y 
+); 
+always @(s or i) 
+begin 
+case(s) 
+2'b00:y=0001; 
+2'b01:y=0010; 
+2'b10:y=0100; 
+2'b11:y=1000; 
+endcase 
+end 
+endmodule 
+module demux_tb(); 
+reg [1:0]s; 
+reg i; 
+wire [3:0]y; 
+demux d(i,s,y); 
+initial 
+begin 
+s=2'b00;i=1'b1; 
+#10 s=2'b01;i=1'b1; 
+#10 s=2'b10;i=1'b1; 
+#10 s=2'b11;i=1'b1; 
+#10 $finish; 
+end 
+endmodule
